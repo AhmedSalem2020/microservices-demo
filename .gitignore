@@ -1,0 +1,26 @@
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Ignore Terraform plan output files
+*.tfplan
+
+# Ignore directory containing Terraform cache
+.terraform/
+
+# Ignore sensitive environment variable files
+.env
+
+# Ignore log files
+*.log
+
+# Ignore Kubernetes config files
+.kube/
+
+# Ignore any sensitive or unnecessary files you might have
+credentials.json
+service-account-key.json
+
+# Ignore compiled code
+/bin/
+/obj/
