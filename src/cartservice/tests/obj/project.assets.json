@@ -2890,11 +2890,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ahmedsalem/Desktop/second task/src/cartservice/tests/cartservice.tests.csproj",
+      "projectUniqueName": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/tests/cartservice.tests.csproj",
       "projectName": "cartservice.tests",
-      "projectPath": "/Users/ahmedsalem/Desktop/second task/src/cartservice/tests/cartservice.tests.csproj",
+      "projectPath": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/tests/cartservice.tests.csproj",
       "packagesPath": "/Users/ahmedsalem/.nuget/packages/",
-      "outputPath": "/Users/ahmedsalem/Desktop/second task/src/cartservice/tests/obj/",
+      "outputPath": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ahmedsalem/.nuget/NuGet/NuGet.Config"
@@ -2909,8 +2909,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/ahmedsalem/Desktop/second task/src/cartservice/src/cartservice.csproj": {
-              "projectPath": "/Users/ahmedsalem/Desktop/second task/src/cartservice/src/cartservice.csproj"
+            "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/src/cartservice.csproj": {
+              "projectPath": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/src/cartservice.csproj"
             }
           }
         }

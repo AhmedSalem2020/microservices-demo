@@ -17,9 +17,10 @@
 # Ignore Kubernetes config files
 .kube/
 
-# Ignore any sensitive or unnecessary files you might have
+# Ignore any sensitive files related to credentials
 credentials.json
 service-account-key.json
+terraform/terraform-admin-key.json
 
 # Ignore compiled code
 /bin/

@@ -2013,11 +2013,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ahmedsalem/Desktop/second task/src/cartservice/src/cartservice.csproj",
+      "projectUniqueName": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/src/cartservice.csproj",
       "projectName": "cartservice",
-      "projectPath": "/Users/ahmedsalem/Desktop/second task/src/cartservice/src/cartservice.csproj",
+      "projectPath": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/src/cartservice.csproj",
       "packagesPath": "/Users/ahmedsalem/.nuget/packages/",
-      "outputPath": "/Users/ahmedsalem/Desktop/second task/src/cartservice/src/obj/",
+      "outputPath": "/Users/ahmedsalem/Desktop/microservices-demo/src/cartservice/src/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ahmedsalem/.nuget/NuGet/NuGet.Config"
