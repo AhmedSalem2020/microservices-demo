@@ -1,0 +1,117 @@
+# Microservices Demo on Google Cloud with Terraform and CI/CD Pipeline
+
+## _Overview_
+
+This repository contains the infrastructure and deployment configuration for the Microservices Demo (Online Boutique) application on Google Cloud. The application is a cloud-native microservices demo application where users can browse items, add them to the cart, and purchase them.
+
+
+
+## _Solution Design_
+The solution involves setting up a Google Kubernetes Engine (GKE) cluster to host the microservices application, using Terraform for infrastructure provisioning, and implementing a CI/CD pipeline using Google Cloud Build and Skaffold.
+
+## _Acceptance Criteria_
+The project must ensure Terraform-based infrastructure provisioning with best practices in networking and security. The GKE cluster, VPC, and IAM roles should follow the required IP ranges and least privilege principles. A CI/CD pipeline using Google Cloud Build must deploy microservices and expose the frontend via a LoadBalancer.
+
+
+## _Architecture_ 
+![Design](./diagram.png "Design")
+![Design](./frontend-1.png "Design")
+![Design](./frontend-2.png "Design")
+![Design](./frontend-3.png "Design")
+
+## _Prerequisites_ 
+•	A Google Cloud account with a project.
+
+•	Google Cloud SDK installed.
+
+•	Docker installed and running.
+
+•	Terraform installed.
+
+•	A GitHub account for source control.
+
+## _Setup Instructions_ :smile:
+#### Step 1: Set Up Google Cloud Environment
+1. Create a new Google Cloud Project:
+	    
+    • Go to the Google Cloud Console.
+	
+    • Create a new project and note the Project ID.
+     
+2. Enable Required APIs:
+	    	
+    • Kubernetes Engine API
+	
+    • Cloud Build API
+		     
+3. Set Up Google Cloud Authentication:
+	    
+            gcloud auth login
+            gcloud auth application-default login
+            gcloud config set project YOUR_PROJECT_ID
+    
+#### Step 2: Infrastructure Provisioning with Terraform
+
+1. Clone the Repository:
+        
+        git clone https://github.com/AhmedSalem2020/microservices-demo.git
+        cd microservices-demo
+
+2.	Update Terraform Variables:
+	    
+    •	Modify variables.tf to set your project-specific values such as project_id, region, etc.
+	
+3.	Initialize Terraform:
+      
+        terraform init
+
+4.	Run Terraform Plan:
+      
+        terraform plan
+
+5.	Apply Terraform Configuration:
+      
+        terraform apply
+
+#### Step 3: CI/CD Pipeline with Google Cloud Build and Skaffold
+1.	Set Up Cloud Build Trigger:
+	
+        •	In the Google Cloud Console, navigate to Cloud Build > Triggers.
+        
+        •	Create a new trigger to monitor changes in the GitHub repository.
+        
+        •	Specify cloudbuild.yaml as the build configuration file.
+        
+        •	Set up the necessary environment variables.
+
+2.	Manual Build Trigger (Optional):
+        
+        gcloud builds submit --config=cloudbuild.yaml --substitutions=_ZONE=us-central1-a,_CLUSTER=demo-app-staging .
+
+3.	Deploy Using Skaffold:
+	
+    •	Skaffold is integrated with Cloud Build to manage the deployment of Kubernetes resources.
+
+#### Step 5: Access the Application	
+•	Run the following command to get the external IP of the frontend service:
+            
+    kubectl get svc frontend-external -n default
+
+•   Access the application using the external IP in your web browser.
+
+    http://<external IP>/
+
+#### Step 6: Clean Up Resources
+•	Destroy Terraform Resources:
+
+    terraform destroy
+
+•	This will delete all the Google Cloud resources created during the setup.
+
+## _Conclusion_
+
+This setup provides a scalable and robust environment for running the Microservices Demo on Google Cloud. By leveraging Terraform for infrastructure as code and integrating a CI/CD pipeline, the solution is both automated and easy to manage.
+
+
+## _Author_
+Ahmed Salem

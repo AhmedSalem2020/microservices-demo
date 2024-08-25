@@ -53,7 +53,7 @@ variable "machine_type" {
 variable "filepath_manifest" {
   description = "Path to the Kubernetes manifests"
   type        = string
-  default     = "kubernetes-manifests/"
+  default     = "../kubernetes-manifests"
 }
 
 variable "namespace" {
