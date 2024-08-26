@@ -40,7 +40,7 @@ microservices](./diagram.png)](./diagram.png)
 
 | Home Page                                                                                                         | Checkout Screen                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [![Screenshot of store homepage](././frontend-1.png)](././frontend-1.png) | [![Screenshot of checkout screen](./frontend-2.png)](./frontend-2.png) | [![Screenshot of checkout screen](./frontend-3.png)](./frontend-3.png)
+| [![Screenshot of store homepage](././frontend-1.png)](././frontend-1.png) | [![Screenshot of checkout screen](./frontend-2.png)](./frontend-2.png)
 
 ## Prerequisites
 
@@ -119,15 +119,26 @@ microservices](./diagram.png)](./diagram.png)
 
     - Skaffold is integrated with Cloud Build to manage the deployment of Kubernetes resources.
 
+4. Wait for the pods to be ready.
+
+   ```sh
+   kubectl get pods -n default 
+   ```
+
+   After a few minutes, you should see the Pods in a `Running` state:
+
+    [![Running Pods](./pods.png)](./pods.png)
+
 ## Step 4: Access the Application
 
 - Run the following command to get the external IP of the frontend service:
 
     ```sh
-    kubectl get svc frontend-external -n default
+    kubectl get svc frontend-external -n default | awk '{print $4}'
     ```
+     [![Running Pods](./svc.png)](./svc.png)
 
-- Access the application using the external IP in your web browser:
+- Access the application using the external IP in your web browser to access your instance of Online Boutique:
 
     ```
     http://<external IP>/
