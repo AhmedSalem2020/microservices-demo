@@ -58,7 +58,7 @@ microservices](./diagram.png)](./diagram.png)
 
 ## Step 1: Set Up Google Cloud Environment
 
-1. Create a Google Cloud Project:**
+1. Create a Google Cloud Project:
     - Navigate to Google Cloud Console.
     - Create a new project and note down the Project ID.
 
@@ -223,6 +223,6 @@ This setup provides a scalable and robust environment for running the Microservi
 
 ## Deployment Considerations and When to Use Google Cloud Deploy
 
-In this solution, we deploy the application to the GKE cluster using Cloud Build and Skaffold without relying on Google Cloud Deploy. This method is effective for scenarios where you need a simple and flexible CI/CD pipeline. It allows for rapid iteration and deployment, suitable for smaller projects or teams that prefer more control over their build and deployment process.
+In this solution, we deploy the application to the `GKE cluster using Cloud Build and Skaffold` without relying on Google Cloud Deploy. This method is effective for scenarios where you need a `simple and flexible CI/CD pipeline`. It allows for rapid iteration and deployment, suitable for smaller projects or teams that prefer more control over their build and deployment process.
 
 However, if your deployment needs involve `more complex pipelines, multiple environments (like dev, staging, production), and advanced deployment strategies such as canary releases, blue/green deployments`, or progressive delivery, then `Google Cloud Deploy might be the better option`. Google Cloud Deploy is a fully managed continuous delivery service that offers structured deployment pipelines, approval processes, and rollback capabilities, making it ideal for larger enterprise applications.
