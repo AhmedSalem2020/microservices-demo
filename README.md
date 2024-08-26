@@ -13,7 +13,7 @@ The solution leverages Google Kubernetes Engine (GKE) to host the microservices 
 
 ## Acceptance Criteria
 
-The project ensures best practices in Terraform-based infrastructure provisioning. This includes correct networking and security settings, such as adhering to required IP ranges and enforcing least privilege principles for IAM roles. A fully functional CI/CD pipeline deploys the microservices, exposing the frontend via a LoadBalancer.
+As a Client, I want to ensure that the infrastructure for the microservices application is provisioned using Terraform with best practices. This includes establishing correct networking and security configurations, such as adhering to required IP ranges and enforcing least privilege principles for IAM roles. Additionally, I want a fully functional CI/CD pipeline that automatically deploys the microservices to a GKE cluster, exposing the frontend via a LoadBalancer.
 
 ## Architecture
 
