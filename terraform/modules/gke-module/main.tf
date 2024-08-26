@@ -35,8 +35,33 @@ resource "google_container_cluster" "primary" {
       "https://www.googleapis.com/auth/cloud-platform",
     ]
   }
-  initial_node_count = 1
+  # Increase the initial node count to handle more pods
+  initial_node_count = var.initial_node_count
+  
+  # Disable the default node pool to allow a custom node pool
+  remove_default_node_pool = true
+  
   deletion_protection = var.deletion_protection
+}
+
+# Create a custom node pool with autoscaling enabled
+resource "google_container_node_pool" "primary_nodes" {
+  cluster    = google_container_cluster.primary.name
+  location   = var.region
+  name       = "primary-nodes"
+  node_count = var.initial_node_count
+
+  node_config {
+    machine_type = var.machine_type
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform",
+    ]
+  }
+
+  autoscaling {
+    min_node_count = var.min_node_count
+    max_node_count = var.max_node_count
+  }
 }
 
 # Get credentials for the GKE cluster and install necessary components like kubectl

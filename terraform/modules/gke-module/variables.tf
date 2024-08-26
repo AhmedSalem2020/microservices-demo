@@ -47,7 +47,7 @@ variable "deletion_protection" {
 variable "machine_type" {
   description = "The machine type to use for GKE nodes"
   type        = string
-  default     = "e2-medium"
+  default     = "e2-standard-2"
 }
 
 variable "filepath_manifest" {
@@ -60,4 +60,22 @@ variable "namespace" {
   description = "Kubernetes namespace for deploying resources"
   type        = string
   default     = "default"
+}
+
+variable "initial_node_count" {
+  description = "Initial number of nodes in the GKE cluster"
+  type        = number
+  default     = 1
+}
+
+variable "min_node_count" {
+  description = "Minimum number of nodes for cluster autoscaling"
+  type        = number
+  default     = 1
+}
+
+variable "max_node_count" {
+  description = "Maximum number of nodes for cluster autoscaling"
+  type        = number
+  default     = 2
 }
