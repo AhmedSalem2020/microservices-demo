@@ -171,22 +171,26 @@ microservices](./diagram.png)](./diagram.png)
             2.	Find the trigger you set up for the repository.
             3.	Click on Run or Trigger to manually start the build process.
 
-3. Deploy Using Skaffold:
-
-    - Skaffold is integrated with Cloud Build to manage the deployment of Kubernetes resources.
-
-       [![Running Pods](./cloudBuild.png)](./cloudBuild.png)
+        [![Running Pods](./cloudBuild.png)](./cloudBuild.png)
 
 
-4. Wait for the pods to be ready.
+3. Deploying the Application with Skaffold:
 
-   ```sh
-   kubectl get pods -n default 
-   ```
+    - After triggering the build, Skaffold is used to manage the deployment of the application to the GKE cluster. Skaffold handles the build, tag, and deployment of your Kubernetes manifests.
+	- You don’t need to run Skaffold manually, it is integrated within the Cloud Build process and automatically executed as part of the pipeline.
+	- The deployment process starts with the execution of Skaffold defined in the skaffold.yaml file, which manages the deployment of Kubernetes resources based on the changes detected.
 
-   After a few minutes, you should see the Pods in a `Running` state:
 
-    [![Running Pods](./pods.png)](./pods.png)
+4. Monitoring the Deployment:
+    - After the build and deployment are triggered, you can monitor the status of your Kubernetes Pods:
+
+        ```sh
+        kubectl get pods -n default 
+        ```
+
+    - After a few minutes, you should see the Pods in a `Running` state:
+
+        [![Running Pods](./pods.png)](./pods.png)
 
 ## Step 4: Access the Application
 
