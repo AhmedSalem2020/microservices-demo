@@ -2,7 +2,10 @@
 
 ## Overview
 
-This repository contains the infrastructure and deployment configuration for the **Microservices Demo (Online Boutique)** application on Google Cloud. The application is a cloud-native microservices demo where users can browse items, add them to the cart, and purchase them.
+**Online Boutique** is a cloud-first microservices demo application.  The application is a
+web-based e-commerce app where users can browse items, add them to the cart, and purchase them.
+
+**This repository** contains the infrastructure and deployment configuration for the **Online Boutique** application on Google Cloud.
 
 ## Solution Design
 
@@ -44,7 +47,8 @@ microservices](./diagram.png)](./diagram.png)
 
 ## Prerequisites
 
-- Google Cloud account with an active project.
+- [Google Cloud project with an active project.](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project)
+- Shell environment with `gcloud`, `git`, and `kubectl`.
 - Google Cloud SDK installed.
 - Docker installed and running.
 - Terraform installed.
@@ -118,6 +122,9 @@ microservices](./diagram.png)](./diagram.png)
 3. Deploy Using Skaffold:
 
     - Skaffold is integrated with Cloud Build to manage the deployment of Kubernetes resources.
+
+       [![Running Pods](./cloudBuild.png)](./cloudBuild.png)
+
 
 4. Wait for the pods to be ready.
 
