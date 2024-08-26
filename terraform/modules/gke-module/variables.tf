@@ -77,5 +77,5 @@ variable "min_node_count" {
 variable "max_node_count" {
   description = "Maximum number of nodes for cluster autoscaling"
   type        = number
-  default     = 2
+  default     = 1
 }
