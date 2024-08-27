@@ -43,7 +43,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: false
-        image: shoppingassistantservice
+        image: gcr.io/google-samples/microservices-demo/shoppingassistantservice:v0.10.1
         ports:
         - name: http
           containerPort: 8080

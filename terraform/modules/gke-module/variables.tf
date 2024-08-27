@@ -65,17 +65,17 @@ variable "namespace" {
 variable "initial_node_count" {
   description = "Initial number of nodes in the GKE cluster"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "min_node_count" {
   description = "Minimum number of nodes for cluster autoscaling"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "max_node_count" {
   description = "Maximum number of nodes for cluster autoscaling"
   type        = number
-  default     = 1
+  default     = 2
 }

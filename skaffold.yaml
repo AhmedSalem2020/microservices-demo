@@ -46,6 +46,8 @@ build:
     context: src/frontend
   - image: adservice
     context: src/adservice
+  - image: shoppingassistantservice
+    context: src/shoppingassistantservice
   tagPolicy:
     gitCommit: {}
   local:
@@ -54,6 +56,8 @@ manifests:
   kustomize:
     paths:
     - kubernetes-manifests
+    - kustomize/components/service-mesh-istio
+    - kustomize/components/shopping-assistant
 deploy:
   kubectl: {}
 # "gcb" profile allows building and pushing the images

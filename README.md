@@ -37,7 +37,7 @@ microservices](./diagram.png)](./diagram.png)
 | [recommendationservice](/src/recommendationservice) | Python        | Recommends other products based on what's given in the cart.                                                                      |
 | [adservice](/src/adservice)                         | Java          | Provides text ads based on given context words.                                                                                   |
 | [loadgenerator](/src/loadgenerator)                 | Python/Locust | Continuously sends requests imitating realistic user shopping flows to the frontend.                                              |
-
+| [shoppingassistantservice](/src/shoppingassistantservice)                 | Python | RAG-featured AI assistant to the frontned experience, helping users suggest products matching their home decor.                                              |
 
 ## Screenshots
 
@@ -65,6 +65,7 @@ microservices](./diagram.png)](./diagram.png)
 2. Enable Required APIs:
     - Kubernetes Engine API
     - Cloud Build API
+    - Service Mesh API
 
 3. Set Up Google Cloud Authentication:
 
@@ -84,12 +85,14 @@ microservices](./diagram.png)](./diagram.png)
     ```
 
 2. Creating Terraform Modules:
-    - Before we proceed with infrastructure provisioning, we need to create the necessary Terraform modules for GKE, IAM, and networking. These modules will allow us to manage and scale our infrastructure efficiently.
+   
+   - Before we proceed with infrastructure provisioning, we need to create the necessary Terraform modules for GKE, IAM, and networking. These modules will allow us to manage and scale our infrastructure efficiently.
 	- The three modules we will create are:
 	- GKE Module: Manages the Google Kubernetes Engine cluster.
 	- IAM Module: Manages Identity and Access Management roles and permissions.
 	- Networking Module: Manages the VPC, subnets, and other networking components.
 	- The directory structure for the Terraform modules is as follows:
+       
         ```sh
         ├── terraform
         │   ├── modules
@@ -134,8 +137,11 @@ microservices](./diagram.png)](./diagram.png)
     ```
 
 7.	Add Application Code:
+    
     - After setting up the infrastructure, add the application code, which includes the necessary Kubernetes manifests, the cloudbuild.yaml configuration file for Google Cloud Build, and the skaffold.yaml file for managing the deployment of the application.
-	- The application code structure in the repository should look like this:
+	
+    - The application code structure in the repository should look like this:
+        
         ```sh
         ├── kubernetes-manifests
         ├── kustomize
@@ -145,9 +151,107 @@ microservices](./diagram.png)](./diagram.png)
         ├── skaffold.yaml
         ├── README.md
         └── .gitignore
+    
+        ```
+## Step 3: Integrate Istio Service Mesh (Optional)
+1. Install Istio:
+
+	- You can use Istio to enable service mesh features such as traffic management, observability, and security. Istio can be provisioned using Anthos Service Mesh (ASM), the Open Source Software (OSS) istioctl tool, or via other Istio providers. You can then label individual namespaces for sidecar injection and configure an Istio gateway to replace the frontend-external load balancer.
+	- Istio was installed using a null_resource block in the gke module
+
+2. Deploy Istio Components:
+
+    - We deployed the Istio components using cloudbuild.yaml file, including the istio-gateway and configured them with the following commands:
+        
+        ```sh
+        kubectl apply -k kustomize/components/service-mesh-istio
+        kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
+        kubectl apply -f kustomize/components/service-mesh-istio/frontend-gateway.yaml
+        ```
+3. Enable service mesh istio component from `kustomize/kustomization.yaml`:
+
+    - This will update the `kustomize/kustomization.yaml` file which could be similar to:
+       
+        ```sh
+        apiVersion: kustomize.config.k8s.io/v1beta1
+        kind: Kustomization
+        resources:
+        - base
+        components:
+        - components/service-mesh-istio
+        ```
+4. Verify Online Boutique Deployment:
+
+    - Run `kubectl get pods,gateway,svc` to see pods and gateway are in a healthy and ready state.
+
+        [![istio-service-mesh](./istio-service-mesh.png)](./istio-service-mesh.png)
+
+5. Access the Application via Istio Gateway instead of using the frontend-external load balancer
+    
+    ```sh
+    http://<104.154.162.23>/
+    ```
+
+## Step 4: Integrate AI Shopping Assistant (Optional)
+
+1. Deploy AlloyDB Infrastructure
+
+	- Run the following script to deploy AlloyDB infrastructure:
+        
+        ```sh
+        ./kustomize/components/shopping-assistant/scripts/1_create_populate_alloydb_tables.sh
         ```
 
-## Step 3: CI/CD Pipeline with Google Cloud Build and Skaffold
+2. Populate AlloyDB with Initial Data
+
+	- Populate the AlloyDB database with necessary tables and data by running:
+
+        ```sh
+        ./kustomize/components/shopping-assistant/scripts/2_create_populate_alloydb_tables.sh
+        ```
+
+3. Deploy the Shopping Assistant Service
+
+	- Deploy the Shopping Assistant service using the following command:
+
+        ```sh
+        kubectl apply -f kustomize/components/shopping-assistant/shoppingassistantservice.yaml
+        ```
+
+4. Patch the Frontend Deployment
+
+	- Enable the Shopping Assistant in the frontend service by applying the following patch:
+
+        ```sh
+        kubectl patch deployment frontend --patch '{
+        "spec": {
+            "template": {
+            "spec": {
+                "containers": [
+                {
+                    "name": "server",
+                    "env": [
+                    {
+                        "name": "ENABLE_ASSISTANT",
+                        "value": "true"
+                    }
+                    ]
+                }
+                ]
+            }
+            }
+        }
+        }'
+        ```
+
+5. Access the Application
+    
+    - Access the application via the Istio Gateway and interact with the Shopping Assistant feature to ensure it is working correctly.
+
+    [![shoppingAssisstentservice](./shoppingAssisstentservice.png)](./shoppingAssisstentservice.png)
+
+
+## Step 5: CI/CD Pipeline with Google Cloud Build and Skaffold
 
 1. Set Up Cloud Build Trigger:
 
@@ -192,21 +296,6 @@ microservices](./diagram.png)](./diagram.png)
 
         [![Running Pods](./pods.png)](./pods.png)
 
-## Step 4: Access the Application
-
-- Run the following command to get the external IP of the frontend service:
-
-    ```sh
-    kubectl get svc frontend-external -n default | awk '{print $4}'
-    ```
-     [![Running Pods](./svc.png)](./svc.png)
-
-- Access the application using the external IP in your web browser to access your instance of Online Boutique:
-
-    ```
-    http://<external IP>/
-    ```
-
 ## Step 5: Clean Up Resources
 
 - Destroy Terraform Resources:
@@ -219,7 +308,7 @@ microservices](./diagram.png)](./diagram.png)
 
 ## Conclusion
 
-This setup provides a scalable and robust environment for running the Microservices Demo on Google Cloud. By leveraging Terraform for infrastructure as code and integrating a CI/CD pipeline, the solution is both automated and easy to manage.
+This setup provides a comprehensive, scalable, and robust environment for running the Microservices Demo on Google Cloud. By leveraging Terraform for infrastructure as code, automating CI/CD with Skaffold, and integrating the Istio service mesh, the solution ensures enhanced traffic management, security, and observability. The combination of these technologies results in an automated, easy-to-manage, and highly effective cloud-native application deployment that is well-suited for modern microservices architectures.
 
 ## Deployment Considerations and When to Use Google Cloud Deploy
 

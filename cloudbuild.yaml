@@ -33,8 +33,44 @@ steps:
   - '-c'
   - >
     gcloud container clusters get-credentials --region=$_REGION $_CLUSTER;
+
+    # Apply Gateway API CRDs and wait for readiness
+    kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml;
+    kubectl wait --for=condition=established --timeout=180s crd/gateways.gateway.networking.k8s.io || exit 1;
+    kubectl wait --for=condition=established --timeout=180s crd/httproutes.gateway.networking.k8s.io || exit 1;
+
+    # Apply Istio resources
+    kubectl apply -k kustomize/components/service-mesh-istio;
+    kubectl wait --for=condition=available --timeout=180s deployment/istiod -n istio-system || exit 1;
+
+    # Apply Istio Gateway configuration
+    kubectl apply -f kustomize/components/service-mesh-istio/frontend-gateway.yaml;
+    kubectl wait --for=condition=available --timeout=180s gateway/istio-gateway;
+
+    # Apply AI Shopping Assistant
+    kubectl apply -f kustomize/components/shopping-assistant/shoppingassistantservice.yaml
+    kubectl patch deployment frontend --patch '{
+      "spec": {
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "server",
+                "env": [
+                  {
+                    "name": "ENABLE_ASSISTANT",
+                    "value": "true"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }';
+
+    # Deploy the application using Skaffold
     skaffold run -f=skaffold.yaml --default-repo=us-central1-docker.pkg.dev/mythical-module-281204/microservices-demo;
-   
 
 # Add more power, and more time, for heavy Skaffold build
 timeout: '3600s'
