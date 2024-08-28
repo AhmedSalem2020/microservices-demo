@@ -1,5 +1,3 @@
-# GKE Module Variables: modules/gke_module/variables.tf
-
 variable "project_id" {
   description = "The ID of the GCP project"
   type        = string

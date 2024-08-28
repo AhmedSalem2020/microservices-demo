@@ -1,5 +1,3 @@
-# GKE Module Outputs: modules/gke_module/output.tf
-
 output "cluster_name" {
   description = "The name of the created GKE cluster"
   value       = google_container_cluster.primary.name

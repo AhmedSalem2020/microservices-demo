@@ -1,5 +1,3 @@
-# Root Module: main.tf
-
 module "iam" {
   source              = "./modules/iam-module"
   project_id          = var.project_id

@@ -1,5 +1,3 @@
-# GKE Module: modules/gke_module/main.tf
-
 # Enable necessary APIs
 module "enable_google_apis" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"

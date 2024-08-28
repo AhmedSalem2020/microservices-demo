@@ -1,5 +1,3 @@
-# IAM Module: modules/iam_module/main.tf
-
 # Assigns the 'container.admin' role to the service account for cluster administration
 resource "google_project_iam_member" "k8s_cluster_admin" {
   project = var.project_id

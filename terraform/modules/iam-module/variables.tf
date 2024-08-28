@@ -1,5 +1,3 @@
-# IAM Module Variables: modules/iam_module/variables.tf
-
 variable "project_id" {
   description = "The GCP project ID where IAM roles will be assigned"
   type        = string

@@ -1,5 +1,3 @@
-# Networking Module: modules/networking_module/main.tf
-
 # Creates a VPC network for the microservices
 resource "google_compute_network" "vpc_network" {
   name = var.vpc_name

@@ -1,5 +1,3 @@
-# Networking Module Variables: modules/networking_module/variables.tf
-
 variable "vpc_name" {
   description = "The name of the VPC network to be created"
   type        = string
