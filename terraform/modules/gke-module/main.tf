@@ -130,7 +130,7 @@ resource "null_resource" "install_istio" {
       istioctl install --set profile=demo -y
       kubectl label namespace default istio-injection=enabled --overwrite
       kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
-      #kubectl apply -k /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/
+      #kubectl apply -k /kustomize/components/service-mesh-istio/
       kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/allow-egress-googleapis.yaml
       kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/frontend-gateway.yaml
       kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/frontend.yaml
