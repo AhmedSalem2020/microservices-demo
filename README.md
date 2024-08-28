@@ -154,21 +154,12 @@ microservices](./diagram.png)](./diagram.png)
     
         ```
 ## Step 3: Integrate Istio Service Mesh (Optional)
-1. Install Istio:
+1. Install & Deploy Istio:
 
 	- You can use Istio to enable service mesh features such as traffic management, observability, and security. Istio can be provisioned using Anthos Service Mesh (ASM), the Open Source Software (OSS) istioctl tool, or via other Istio providers. You can then label individual namespaces for sidecar injection and configure an Istio gateway to replace the frontend-external load balancer.
-	- Istio was installed using a null_resource block in the gke module
+	- Istio was provisioned using the GKE module in Terraform, with the installation managed by a null_resource block.
 
-2. Deploy Istio Components:
-
-    - We deployed the Istio components using cloudbuild.yaml file, including the istio-gateway and configured them with the following commands:
-        
-        ```sh
-        kubectl apply -k kustomize/components/service-mesh-istio
-        kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
-        kubectl apply -f kustomize/components/service-mesh-istio/frontend-gateway.yaml
-        ```
-3. Enable service mesh istio component from `kustomize/kustomization.yaml`:
+2. Enable service mesh istio component from `kustomize/kustomization.yaml`:
 
     - This will update the `kustomize/kustomization.yaml` file which could be similar to:
        
@@ -180,26 +171,26 @@ microservices](./diagram.png)](./diagram.png)
         components:
         - components/service-mesh-istio
         ```
-4. Verify Online Boutique Deployment:
+3. Verify Online Boutique Deployment:
 
     - Run `kubectl get pods,gateway,svc` to see pods and gateway are in a healthy and ready state.
 
         [![istio-service-mesh](./istio-service-mesh.png)](./istio-service-mesh.png)
 
-5. Access the Application via Istio Gateway instead of using the frontend-external load balancer
+4. Access the Application via Istio Gateway instead of using the frontend-external load balancer
     
     ```sh
-    http://<104.154.162.23>/
+    http://104.154.162.23/
     ```
 
 ## Step 4: Integrate AI Shopping Assistant (Optional)
 
 1. Deploy AlloyDB Infrastructure
 
-	- Run the following script to deploy AlloyDB infrastructure:
+	- The AI Shopping Assistant is integrated using the GKE module in Terraform. Deploy the AlloyDB infrastructure using the provided scripts:
         
         ```sh
-        ./kustomize/components/shopping-assistant/scripts/1_create_populate_alloydb_tables.sh
+        /kustomize/components/shopping-assistant/scripts/1_deploy_alloydb_infra.sh
         ```
 
 2. Populate AlloyDB with Initial Data
@@ -207,7 +198,7 @@ microservices](./diagram.png)](./diagram.png)
 	- Populate the AlloyDB database with necessary tables and data by running:
 
         ```sh
-        ./kustomize/components/shopping-assistant/scripts/2_create_populate_alloydb_tables.sh
+        /kustomize/components/shopping-assistant/scripts/2_create_populate_alloydb_tables.sh
         ```
 
 3. Deploy the Shopping Assistant Service

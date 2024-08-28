@@ -12,7 +12,12 @@ module "enable_google_apis" {
     "container.googleapis.com",
     "monitoring.googleapis.com",
     "cloudtrace.googleapis.com",
-    "cloudprofiler.googleapis.com"
+    "cloudprofiler.googleapis.com",
+    "alloydb.googleapis.com",
+    "servicenetworking.googleapis.com",
+    "secretmanager.googleapis.com",
+    "aiplatform.googleapis.com",
+    "generativelanguage.googleapis.com"
   ]
 }
 
@@ -103,6 +108,20 @@ resource "null_resource" "wait_conditions" {
   ]
 }
 
+# # Install Istio and configure the cluster
+# resource "null_resource" "install_istio" {
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#       curl -L https://istio.io/downloadIstio | sh -
+#       cd istio-*
+#       export PATH=$PWD/bin:$PATH
+#       istioctl install --set profile=demo -y
+#       kubectl label namespace default istio-injection=enabled --overwrite
+#     EOT
+#   }
+#   depends_on = [google_container_cluster.primary]
+# }
+
 # Install Istio and configure the cluster
 resource "null_resource" "install_istio" {
   provisioner "local-exec" {
@@ -112,7 +131,46 @@ resource "null_resource" "install_istio" {
       export PATH=$PWD/bin:$PATH
       istioctl install --set profile=demo -y
       kubectl label namespace default istio-injection=enabled --overwrite
+      kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
+      #kubectl apply -k /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/
+      kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/allow-egress-googleapis.yaml
+      kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/frontend-gateway.yaml
+      kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/service-mesh-istio/frontend.yaml
     EOT
   }
   depends_on = [google_container_cluster.primary]
+}
+
+# Deploy the Shopping Assistant with RAG & AlloyDB
+resource "null_resource" "deploy_shopping_assistant" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/scripts/1_deploy_alloydb_infra.sh
+      /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/scripts/2_create_populate_alloydb_tables.sh
+      kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/shoppingassistantservice.yaml
+      kubectl patch deployment frontend --patch '{
+        "spec": {
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "name": "server",
+                  "env": [
+                    {
+                      "name": "ENABLE_ASSISTANT",
+                      "value": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }'
+    EOT
+  }
+  depends_on = [
+    null_resource.install_istio,
+    google_container_cluster.primary
+  ]
 }

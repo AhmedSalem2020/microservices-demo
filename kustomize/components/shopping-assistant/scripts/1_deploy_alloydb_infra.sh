@@ -18,14 +18,14 @@ set -e
 set -x
 
 # Replace me
-PROJECT_ID=$PROJECT_ID
-PROJECT_NUMBER=$PROJECT_NUMBER
+PROJECT_ID=mythical-module-281204
+PROJECT_NUMBER=903927849530
 PGPASSWORD=$PGPASSWORD
 
 # Set sensible defaults
 REGION=us-central1
 USE_GKE_GCLOUD_AUTH_PLUGIN=True
-ALLOYDB_NETWORK=default
+ALLOYDB_NETWORK=microservices-vpc
 ALLOYDB_SERVICE_NAME=onlineboutique-network-range
 ALLOYDB_CLUSTER_NAME=onlineboutique-cluster
 ALLOYDB_INSTANCE_NAME=onlineboutique-instance
