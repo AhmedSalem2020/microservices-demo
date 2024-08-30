@@ -143,8 +143,8 @@ resource "null_resource" "install_istio" {
 resource "null_resource" "deploy_shopping_assistant" {
   provisioner "local-exec" {
     command = <<-EOT
-      /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/scripts/1_deploy_alloydb_infra.sh
-      /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/scripts/2_create_populate_alloydb_tables.sh
+      #/Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/scripts/1_deploy_alloydb_infra.sh
+      #/Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/scripts/2_create_populate_alloydb_tables.sh
       kubectl apply -f /Users/ahmedsalem/Desktop/microservices-demo/kustomize/components/shopping-assistant/shoppingassistantservice.yaml
       kubectl patch deployment frontend --patch '{
         "spec": {
