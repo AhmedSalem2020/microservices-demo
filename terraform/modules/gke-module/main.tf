@@ -106,20 +106,6 @@ resource "null_resource" "wait_conditions" {
   ]
 }
 
-# # Install Istio and configure the cluster
-# resource "null_resource" "install_istio" {
-#   provisioner "local-exec" {
-#     command = <<-EOT
-#       curl -L https://istio.io/downloadIstio | sh -
-#       cd istio-*
-#       export PATH=$PWD/bin:$PATH
-#       istioctl install --set profile=demo -y
-#       kubectl label namespace default istio-injection=enabled --overwrite
-#     EOT
-#   }
-#   depends_on = [google_container_cluster.primary]
-# }
-
 # Install Istio and configure the cluster
 resource "null_resource" "install_istio" {
   provisioner "local-exec" {
