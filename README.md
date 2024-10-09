@@ -305,7 +305,7 @@ However, if your deployment needs involve `more complex pipelines, multiple envi
 
 ## Conclusion
 
-This setup provides a comprehensive, scalable, and robust environment for running the Microservices Demo on Google Cloud. By leveraging Terraform for infrastructure as code, automating CI/CD with Skaffold, and integrating the Istio service mesh, the solution ensures enhanced traffic management, security, and observability. The combination of these technologies results in an automated, easy-to-manage, and highly effective cloud-native application deployment that is well-suited for modern microservices architectures.
+This setup provides a comprehensive, scalable, and robust environment for running the Microservices Demo on Google Cloud. By leveraging Terraform for infrastructure as code, automating CI/CD with Skaffold, and integrating the Istio service mesh, the solution ensures enhanced traffic management, security, and observability. The combination of these technologies results in an automated, easy-to-manage, and highly effective cloud-native application deployment that is well-suited for modern microservices architectures. 
 
 
 
